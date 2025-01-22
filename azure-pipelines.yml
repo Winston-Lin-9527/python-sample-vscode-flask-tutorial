@@ -16,7 +16,7 @@ variables:
   # Agent VM image name
   # vmImageName: 'ubuntu-latest'
   
-  poolName: 'Default'
+  poolName: 'Default' # self hosted agents
   # Agent VM image name
   vmImageName: 'arm-vm'
 
@@ -34,7 +34,7 @@ stages:
   jobs:
   - job: BuildJob
     pool:
-      # name: $(poolName)
+      name: $(poolName)
       vmImage: $(vmImageName)
     steps:
     - task: UsePythonVersion@0
@@ -71,7 +71,7 @@ stages:
   jobs:
   - deployment: DeploymentJob
     pool:
-      # name: $(poolName)
+      name: $(poolName)
       vmImage: $(vmImageName)
     environment: $(environmentName)
     strategy:
