@@ -16,9 +16,10 @@ variables:
   # Agent VM image name
   # vmImageName: 'ubuntu-latest'
   
-  poolName: 'Default' # self hosted agents
-  # Agent VM image name
-  vmImageName: 'arm-vm'
+  # poolName: 'Default' # self hosted agents
+  # # Agent VM image name
+  # vmImageName: 'arm-vm'
+  vmImageName: 'ubuntu-latest'
 
   # Environment name
   environmentName: 'devops-demo-app'
@@ -26,7 +27,7 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
 
-  pythonVersion: '3.11.4'
+  pythonVersion: '3.11'
 
 stages:
 - stage: Build
@@ -40,7 +41,7 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
-        architecture: x86
+        # architecture: x86
       displayName: 'Use Python $(pythonVersion)'
 
     - script: |
