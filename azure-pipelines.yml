@@ -18,7 +18,7 @@ variables:
   
   poolName: 'Default' # self hosted agents
   # Agent VM image name
-  vmImageName: 'arm-vm'
+  vmImageName: 'AzureX86VM'
 
   # Environment name
   environmentName: 'devops-demo-app'
@@ -40,6 +40,7 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
+        architecture: 'arm64'
       displayName: 'Use Python $(pythonVersion)'
 
     - script: |
