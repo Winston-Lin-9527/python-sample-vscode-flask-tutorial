@@ -11,7 +11,8 @@ variables:
   azureServiceConnectionId: 'a2455739-81e9-484b-ad63-893abbf8c493'
 
   # Web app name
-  webAppName: 'devops-demo-app'
+  # webAppName: 'devops-demo-app'
+  webAppName: 'python-flask-webapp'
 
   # Agent VM image name
   # vmImageName: 'ubuntu-latest'
@@ -22,7 +23,8 @@ variables:
   vmImageName: 'ubuntu-latest'
 
   # Environment name
-  environmentName: 'devops-demo-app'
+  # environmentName: 'devops-demo-app'
+  environmentName: 'python-flask-webapp'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
