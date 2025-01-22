@@ -16,9 +16,9 @@ variables:
   # Agent VM image name
   # vmImageName: 'ubuntu-latest'
   
-  poolName: 'Azure Pipelines' # self hosted agents
+  poolName: 'Default' # self hosted agents
   # Agent VM image name
-  vmImageName: 'Hosted Agent'
+  vmImageName: 'arm-vm'
 
   # Environment name
   environmentName: 'devops-demo-app'
