@@ -26,7 +26,7 @@ variables:
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
 
-  pythonVersion: '3.11'
+  pythonVersion: '3.8'
 
 stages:
 - stage: Build
@@ -40,6 +40,7 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
+        architecture: x86
       displayName: 'Use Python $(pythonVersion)'
 
     - script: |
