@@ -1,0 +1,89 @@
+/* 
+for type just `type` {...}
+for classes use .
+for id(s) use #
+ */
+
+ #content_editfield {
+    width: 80%;
+    height: 80%;
+    border: 5px solid green;
+    padding: 10px;
+}
+
+.alignMid {
+    text-align: center;
+}
+
+#bottom_section {
+    margin: 10px
+}
+
+.styled:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+.styled:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+}
+
+.infotbox {
+    border: 3px solid brown
+}
+
+html {
+    font-family: 'Raleway', sans-serif;
+    background-color: grey;
+    font-size: 15px;
+  }
+
+aside {
+    border-right: 5px solid black;
+    flex: 3;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+}
+
+/* copied */
+/* Style the header */
+
+  
+  /* Create two columns/boxes that floats next to each other */
+  nav {
+    float: left;
+    width: 30%;
+    height: 300px; /* only for demonstration, should be removed */
+    background: #ccc;
+    padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+article {
+    float: left;
+    padding: 20px;
+    width: 70%;
+    background-color: #f1f1f1;
+    height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Style the footer */
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}

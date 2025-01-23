@@ -1,7 +1,63 @@
-{% extends "layout.html" %}
-{% block title %}
-Contact us
-{% endblock %}
-{% block content %}
-<p>Contact page for the Visual Studio Code Flask tutorial.</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>bin</title>
+    <script type="text/javascript" src="/static/main.js" defer></script>
+    <link href="/static/style.css"rel="stylesheet">
+    <!-- for live se -->
+    <script type="text/javascript" src="../static/main.js" defer></script>
+    <link href="../static/style.css"rel="stylesheet">
+  </head>
+
+<body>
+  <h1>Crappy Pastebin</h1>
+  <h3 id="daily_msg">Click refresh to get date</h3>
+  <button class="styled" id="refresh_button" type="button">Refresh</button>
+  <main>
+    <div id="main_editor" class="alignMid">
+      <textarea id="content_editfield" name="w3review" rows="4" cols="50"></textarea>
+    <fieldset>
+      <legend>About this file:</legend>
+      <label for="fname">author name:</label><br>
+      <input type="text" class="infotbox" id="authorname" value="John"><br>
+      <label for="lname">filename:</label><br>
+      <input type="text" class="infotbox" id="pastename" value="Doe"><br><br>
+    </fieldset>
+  </div>
+    <div class="alignMid" id="bottom_section">
+      <button class="styled" id="submit_button" type="button">Submit</button>
+    </div>
+  </main>
+    <aside>
+      <form>
+        <div>
+          <label for="category">test:</label>
+          <select id="category">
+            <option selected>All</option>
+            <option>Vegetables</option>
+            <option>Meat</option>
+            <option>Soup</option>
+          </select>
+        </div>
+        <div>
+          <label for="searchTerm">Enter note ID:</label>
+          <input type="text" id="searchTerm" placeholder="e.g. ABC12">
+        </div>
+        <div>
+          <button class="styled" id="search_button" type="button">Submit</button>
+        </div>
+      </form>
+    </aside>
+
+    <section>
+      <p id="sent_logs"></p>
+    </section>
+    
+    <footer>
+      <p>By Winston Lin. 2022</p>
+    </footer>
+  </body>
+
+</html>
