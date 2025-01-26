@@ -1,10 +1,7 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  branches:
+    include:
+    - main
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
@@ -32,6 +29,25 @@ variables:
 
   pythonVersion: '3.11'
 
+  # Version numbering 
+  majorVersion: 1
+  minorVersion: 2
+  # automatically increment starting from 0 for each unique 'majorMinor' value
+  patch: $[counter(variables['majorMinor'], 0)]
+
+  name: why
+  ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    value: pr
+  ${{ elseif eq(variables['Build.Reason'], 'Manual' ) }}:
+    value: manual
+  ${{ elseif eq(variables['Build.Reason'], 'IndividualCI' ) }}:
+    value: indivci
+  ${{ else }}:
+    value: other
+
+name: $(TeamProject)_$(majorVersion).$(minorVersion).$(patch)_$(SourceBranchName)_$(why)_$(Date:yyyyMMdd)
+
+
 stages:
 - stage: Build
   displayName: Build stage
@@ -41,12 +57,15 @@ stages:
       # name: $(poolName)
       vmImage: $(vmImageName)
     steps:
+    - script: |
+        echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)"
+        echo "##vso$(majorVersion).$(minorVersion).$(patch)-$(rev:r)"
+      displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
         # architecture: x86
       displayName: 'Use Python $(pythonVersion)'
-
     - script: |
         python -m venv antenv
         source antenv/bin/activate
@@ -55,7 +74,6 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
-
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
