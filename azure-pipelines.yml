@@ -59,7 +59,7 @@ stages:
     steps:
     - script: |
         echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)"
-        echo "##vso$(majorVersion).$(minorVersion).$(patch)-$(rev:r)"
+        echo "##vso$(majorVersion).$(minorVersion).$(patch)"
       displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
@@ -74,13 +74,23 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
+
+- stage: Archive
+  displayName: Archive stage
+  jobs:
+  - job: ArchiveJob
+    pool:
+      # name: $(poolName)
+      vmImage: $(vmImageName)
+    steps:
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
         rootFolderOrFile: '$(projectRoot)'
         includeRootFolder: false
-        archiveType: zip
+        archiveType: zip      # # we only use Build.BuildID internally as an unique identifer 
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+
         replaceExistingArchive: true
 
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
