@@ -75,8 +75,24 @@ stages:
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
 
+- stage: Test
+  displayName: 'Test Stage'
+  dependsOn: Build
+  condition: succeeded()
+  isSkippable: false
+  jobs:
+  - job: TestJob
+    displayName: 'Test Job'
+    steps:
+    - script: |
+        echo "Running unit tests..."
+        coverage run --source=src -m pytest -v tests && coverage report -m
+      displayName: 'Run unit tests'
+
 - stage: Archive
   displayName: Archive stage
+  dependsOn: Test
+  condition: succeeded()
   jobs:
   - job: ArchiveJob
     pool:
@@ -99,7 +115,7 @@ stages:
 
 - stage: Deploy
   displayName: 'Deploy Web App'
-  dependsOn: Build
+  dependsOn: Archive
   condition: succeeded()
   jobs:
   - deployment: DeploymentJob
