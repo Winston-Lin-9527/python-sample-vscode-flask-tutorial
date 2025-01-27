@@ -52,7 +52,7 @@ stages:
 - stage: Build_Test
   displayName: Build & Test stage
   jobs:
-  - job: BuildJob
+  - job: BuildNTestJob
     pool:
       # name: $(poolName)
       vmImage: $(vmImageName)
@@ -74,9 +74,6 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
-  - job: TestJob
-    displayName: 'Test Job'
-    steps:
     - script: |
         echo "Running unit tests..."
         coverage run --source=src -m pytest -v tests && coverage report -m
