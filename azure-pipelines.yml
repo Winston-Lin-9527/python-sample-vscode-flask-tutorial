@@ -89,9 +89,11 @@ stages:
         pip install -r requirements.txt
       displayName: 'Install dependencies'
     - script: |
+        source antenv/bin/activate
         python -m pytest tests/
       displayName: 'pytest'
     - script: |
+        source antenv/bin/activate
         python -m coverage run --source=src -m pytest -v tests && coverage report -m
       displayName: 'coverage pytest'
 
