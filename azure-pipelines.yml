@@ -81,9 +81,12 @@ stages:
     #   displayName: 'Run unit tests'
 
     - script: |
+        python -m venv antenv
+        source antenv/bin/activate
         python -m pip install --upgrade pip
         pip install pytest pytest-azurepipelines
-        pip install -e .
+        pip install setup
+        pip install -r requirements.txt
       displayName: 'Install dependencies'
     - script: |
         python -m pytest tests/
