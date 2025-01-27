@@ -49,8 +49,8 @@ name: $(TeamProject)_$(majorVersion).$(minorVersion).$(patch)_$(SourceBranchName
 
 
 stages:
-- stage: Build
-  displayName: Build stage
+- stage: Build_Test
+  displayName: Build & Test stage
   jobs:
   - job: BuildJob
     pool:
@@ -74,13 +74,6 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
-
-- stage: Test
-  displayName: 'Test Stage'
-  dependsOn: Build
-  condition: succeeded()
-  isSkippable: false
-  jobs:
   - job: TestJob
     displayName: 'Test Job'
     steps:
@@ -89,9 +82,23 @@ stages:
         coverage run --source=src -m pytest -v tests && coverage report -m
       displayName: 'Run unit tests'
 
+# - stage: Test
+#   displayName: 'Test Stage'
+#   dependsOn: Build
+#   condition: succeeded()
+#   isSkippable: false
+#   jobs:
+#   - job: TestJob
+#     displayName: 'Test Job'
+#     steps:
+#     - script: |
+#         echo "Running unit tests..."
+#         coverage run --source=src -m pytest -v tests && coverage report -m
+#       displayName: 'Run unit tests'
+
 - stage: Archive
   displayName: Archive stage
-  dependsOn: Test
+  dependsOn: Build_Test
   condition: succeeded()
   jobs:
   - job: ArchiveJob
