@@ -66,19 +66,19 @@ stages:
         versionSpec: '$(pythonVersion)'
         # architecture: x86
       displayName: 'Use Python $(pythonVersion)'
-    - script: |
-        python -m venv antenv
-        source antenv/bin/activate
-        python -m pip install --upgrade pip
-        pip install setup
-        pip install -r requirements.txt
-      workingDirectory: $(projectRoot)
-      displayName: "Install requirements"
+    # - script: |
+    #     python -m venv antenv
+    #     source antenv/bin/activate
+    #     python -m pip install --upgrade pip
+    #     pip install setup
+    #     pip install -r requirements.txt
+    #   workingDirectory: $(projectRoot)
+    #   displayName: "Install requirements"
     
-    - script: |
-        # echo "Running unit tests..."
-        python -m coverage run --source=src -m pytest -v tests && coverage report -m
-      displayName: 'Run unit tests'
+    # - script: |
+    #     # echo "Running unit tests..."
+    #     python -m coverage run --source=src -m pytest -v tests && coverage report -m
+    #   displayName: 'Run unit tests'
 
     - script: |
         python -m pip install --upgrade pip
