@@ -76,7 +76,7 @@ stages:
       displayName: "Install requirements"
     - script: |
         # echo "Running unit tests..."
-        python3 -m coverage run --source=src -m pytest -v tests && coverage report -m
+        python -m coverage run --source=src -m pytest -v tests && coverage report -m
       displayName: 'Run unit tests'
 
 # - stage: Test
