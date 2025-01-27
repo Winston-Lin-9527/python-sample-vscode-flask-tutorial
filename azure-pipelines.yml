@@ -81,19 +81,19 @@ stages:
     #   displayName: 'Run unit tests'
 
     - script: |
-        python -m venv antenv
-        source antenv/bin/activate
+        # python -m venv antenv
+        # source antenv/bin/activate
         python -m pip install --upgrade pip
         pip install pytest pytest-azurepipelines
         pip install setup
         pip install -r requirements.txt
       displayName: 'Install dependencies'
     - script: |
-        source antenv/bin/activate
+        # source antenv/bin/activate
         python -m pytest tests/
       displayName: 'pytest'
     - script: |
-        source antenv/bin/activate
+        # source antenv/bin/activate
         python -m coverage run --source=src -m pytest -v tests && coverage report -m
       displayName: 'coverage pytest'
 
