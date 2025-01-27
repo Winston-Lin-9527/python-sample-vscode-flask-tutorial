@@ -51,7 +51,7 @@ def search_note():
     res = {}
     if not x:
         print('note ' + noteUUID + ' not found')
-        return jsonify(status='fail')
+        return jsonify(status='fail'), 404
     else:
         res['status']='ok'
         res['data'] = x[0]['data']
