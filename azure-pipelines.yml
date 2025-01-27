@@ -58,7 +58,7 @@ stages:
       vmImage: $(lib_vmImageName)
     steps:
     - script: |
-        echo "\033[0;31m$(lib_majorVersion).$(lib_minorVersion).$(patch)"
+        echo "VERSION NUMBER: $(lib_majorVersion).$(lib_minorVersion).$(patch)"
       displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
