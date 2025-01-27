@@ -58,8 +58,7 @@ stages:
       vmImage: $(lib_vmImageName)
     steps:
     - script: |
-        echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)"
-        echo "##vso$(lib_majorVersion).$(lib_minorVersion).$(patch)"
+        echo "\033[0;31m$(lib_majorVersion).$(lib_minorVersion).$(patch)"
       displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
@@ -92,22 +91,7 @@ stages:
         # source antenv/bin/activate
         python -m pytest tests/ --cov src --cov-report html
         # pytest tests/ --cov my_project --cov-report html
-      displayName: 'pytest'
-
-
-# - stage: Test
-#   displayName: 'Test Stage'
-#   dependsOn: Build
-#   condition: succeeded()
-#   isSkippable: false
-#   jobs:
-#   - job: TestJob
-#     displayName: 'Test Job'
-#     steps:
-#     - script: |
-#         echo "Running unit tests..."
-#         coverage run --source=src -m pytest -v tests && coverage report -m
-#       displayName: 'Run unit tests'
+      displayName: 'pytest unit test'
 
 - stage: Archive
   displayName: Archive stage
@@ -147,12 +131,10 @@ stages:
       runOnce:
         deploy:
           steps:
-
           - task: UsePythonVersion@0
             inputs:
               versionSpec: '$(pythonVersion)'
             displayName: 'Use Python version'
-
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(lib_webAppName)'
             inputs:
