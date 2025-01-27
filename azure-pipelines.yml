@@ -74,10 +74,24 @@ stages:
         pip install -r requirements.txt
       workingDirectory: $(projectRoot)
       displayName: "Install requirements"
+    
     - script: |
         # echo "Running unit tests..."
         python -m coverage run --source=src -m pytest -v tests && coverage report -m
       displayName: 'Run unit tests'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-azurepipelines
+        pip install -e .
+      displayName: 'Install dependencies'
+    - script: |
+        python -m pytest tests/
+      displayName: 'pytest'
+    - script: |
+        python -m coverage run --source=src -m pytest -v tests && coverage report -m
+      displayName: 'coverage pytest'
+
 
 # - stage: Test
 #   displayName: 'Test Stage'
