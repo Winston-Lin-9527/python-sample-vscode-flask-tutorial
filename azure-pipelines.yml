@@ -84,18 +84,15 @@ stages:
         # python -m venv antenv
         # source antenv/bin/activate
         python -m pip install --upgrade pip
-        pip install pytest pytest-azurepipelines
+        pip install pytest pytest-azurepipelines pytest-cov
         pip install setup
         pip install -r requirements.txt
       displayName: 'Install dependencies'
     - script: |
         # source antenv/bin/activate
-        python -m pytest tests/
+        python -m pytest tests/ --cov src --cov-report html
+        # pytest tests/ --cov my_project --cov-report html
       displayName: 'pytest'
-    - script: |
-        # source antenv/bin/activate
-        python -m coverage run --source=src -m pytest -v tests && coverage report -m
-      displayName: 'coverage pytest'
 
 
 # - stage: Test
