@@ -4,7 +4,10 @@ trigger:
     - main
 
 variables:
-  - group: Python-demo-app
+  - group: Python-demo-app    # *** edit this line only ***
+
+  # -----------------DO NOT EDIT BELOW THIS LINE!-------------------
+
   # Azure Resource Manager connection created during pipeline creation
   # azureServiceConnectionId: $(lib_azureServiceConnectionId)
 
@@ -24,8 +27,7 @@ variables:
   - name: projectRoot
     value: $(System.DefaultWorkingDirectory)
 
-  - name: pythonVersion
-    value: '3.11'
+  # - name: pythonVersion
 
   # Version numbering 
   # majorVersion: $(lib_majorVersion)
@@ -62,9 +64,9 @@ stages:
       displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '$(pythonVersion)'
+        versionSpec: '$(lib_pythonVersion)'
         # architecture: x86
-      displayName: 'Use Python $(pythonVersion)'
+      displayName: 'Use Python $(lib_pythonVersion)'
     # - script: |
     #     python -m venv antenv
     #     source antenv/bin/activate
@@ -133,7 +135,7 @@ stages:
           steps:
           - task: UsePythonVersion@0
             inputs:
-              versionSpec: '$(pythonVersion)'
+              versionSpec: '$(lib_pythonVersion)'
             displayName: 'Use Python version'
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : $(lib_webAppName)'
