@@ -4,48 +4,48 @@ trigger:
     - main
 
 variables:
+  - group: Python-demo-app
   # Azure Resource Manager connection created during pipeline creation
-  # azureServiceConnectionId: 'a2455739-81e9-484b-ad63-893abbf8c493'
-  azureServiceConnectionId: '98330fb8-d61b-40e3-a03a-26dd6cf31323'
+  # azureServiceConnectionId: $(lib_azureServiceConnectionId)
 
   # Web app name
-  # webAppName: 'devops-demo-app'
-  webAppName: 'python-flask-webapp'
+  # webAppName: $(lib_webAppName)
 
-  # Agent VM image name
-  # vmImageName: 'ubuntu-latest'
-  
+  # Agent pool name
   # poolName: 'Default' # self hosted agents
-  # # Agent VM image name
+  # Agent VM image name
   # vmImageName: 'arm-vm'
-  vmImageName: 'ubuntu-latest'
+  # vmImageName: $(lib_vmImageName)
 
   # Environment name
-  # environmentName: 'devops-demo-app'
-  environmentName: 'python-flask-webapp'
+  # environmentName: $(lib_environmentName)
 
   # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: $(System.DefaultWorkingDirectory)
+  - name: projectRoot
+    value: $(System.DefaultWorkingDirectory)
 
-  pythonVersion: '3.11'
+  - name: pythonVersion
+    value: '3.11'
 
   # Version numbering 
-  majorVersion: 1
-  minorVersion: 2
+  # majorVersion: $(lib_majorVersion)
+  # minorVersion: $(lib_minorVersion)
   # automatically increment starting from 0 for each unique 'majorMinor' value
-  patch: $[counter(variables['majorMinor'], 0)]
+  - name: patch
+    value: $[counter(variables['majorMinor'], 0)]
 
-  name: why
-  ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-    value: pr
-  ${{ elseif eq(variables['Build.Reason'], 'Manual' ) }}:
-    value: manual
-  ${{ elseif eq(variables['Build.Reason'], 'IndividualCI' ) }}:
-    value: indivci
-  ${{ else }}:
-    value: other
+  - name: why
+    ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+      value: pr
+    ${{ elseif eq(variables['Build.Reason'], 'Manual' ) }}:
+      value: manual
+    ${{ elseif eq(variables['Build.Reason'], 'IndividualCI' ) }}:
+      value: indivci
+    ${{ else }}:
+      value: other
 
-name: $(TeamProject)_$(majorVersion).$(minorVersion).$(patch)_$(SourceBranchName)_$(why)_$(Date:yyyyMMdd)
+
+name: $(TeamProject)_$(lib_majorVersion).$(lib_minorVersion).$(patch)_$(SourceBranchName)_$(why)_$(Date:yyyyMMdd)
 
 
 stages:
@@ -55,11 +55,11 @@ stages:
   - job: BuildNTestJob
     pool:
       # name: $(poolName)
-      vmImage: $(vmImageName)
+      vmImage: $(lib_vmImageName)
     steps:
     - script: |
         echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)"
-        echo "##vso$(majorVersion).$(minorVersion).$(patch)"
+        echo "##vso$(lib_majorVersion).$(lib_minorVersion).$(patch)"
       displayName: 'Build with version number'
     - task: UsePythonVersion@0
       inputs:
@@ -117,7 +117,7 @@ stages:
   - job: ArchiveJob
     pool:
       # name: $(poolName)
-      vmImage: $(vmImageName)
+      vmImage: $(lib_vmImageName)
     steps:
     - task: ArchiveFiles@2
       displayName: 'Archive files'
@@ -141,8 +141,8 @@ stages:
   - deployment: DeploymentJob
     pool:
       # name: $(poolName)
-      vmImage: $(vmImageName)
-    environment: $(environmentName)
+      vmImage: $(lib_vmImageName)
+    environment: $(lib_environmentName)
     strategy:
       runOnce:
         deploy:
@@ -154,9 +154,9 @@ stages:
             displayName: 'Use Python version'
 
           - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App : $(webAppName)'
+            displayName: 'Deploy Azure Web App : $(lib_webAppName)'
             inputs:
-              azureSubscription: $(azureServiceConnectionId)
-              appName: $(webAppName)
+              azureSubscription: $(lib_azureServiceConnectionId)
+              appName: $(lib_webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
               startUpCommand: 'startup.txt'
